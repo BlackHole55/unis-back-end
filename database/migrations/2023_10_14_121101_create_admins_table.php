@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->text('password');
-            $table->string('registredTimestamp');
+            $table->string('registered_timestamp');
             $table->string('last_login')->nullable();
         });
     }
