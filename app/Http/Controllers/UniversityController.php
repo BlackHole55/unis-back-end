@@ -21,6 +21,7 @@ class UniversityController extends Controller
         $universities = University::paginate($per_page);
 
         $universities = University::with(['dorms'])->get();
+        $universities = University::with(['specialties'])->get();
         return response([
             'universities' => $universities
         ], 200);
@@ -70,9 +71,16 @@ class UniversityController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $name)
+    public function show(string $id)
     {
-        return University::where('name', $name)->get();
+        $university = University::where('id', $id)->get();
+        $dorms = University::find($id)->dorms;
+
+        return response([
+            'university' => $university,
+            'dorms' => $dorms,
+            'specialties' => $university->load('specialties'),
+        ], 200);
     }
 
     /**
@@ -117,6 +125,44 @@ class UniversityController extends Controller
         University::destroy($id);
         return response([
             'status' => 'success'
+        ], 200);
+    }
+
+    /**
+     * Add Speciality to University
+     */
+    public function addSpeciality(Request $request, $id)
+    {
+        $university = University::find($id);
+
+        $date = Carbon::now();
+        $date->timezone('Asia/Almaty');
+        $formattedDate = $date->toIso8601String();
+
+        $adminName = $request->user()->name;
+
+        $price = $request->input('price');
+
+        $university->specialties()->syncWithoutDetaching([
+            $request->speciality => ['price_per_year_tenge' => $price, 'added_timestamp' => $formattedDate, 'last_changed_admin' => $adminName]
+        ]);
+
+        return response([
+            'status' => 'success',
+        ], 200);
+    }
+
+    /**
+     * Detach Speciality University
+     */
+    public function removeSpeciality(Request $request, $id)
+    {
+        $university = University::find($id);
+
+        $university->specialties()->detach($request->speciality);
+
+        return response([
+            'status' => 'success',
         ], 200);
     }
 }

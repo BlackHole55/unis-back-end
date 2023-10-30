@@ -6,6 +6,7 @@ use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DormController;
 use App\Http\Controllers\SpecialityController;
+use App\Http\Controllers\ExamController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,7 @@ use App\Http\Controllers\SpecialityController;
 
 //Public University routes
 Route::get('v1/universities', [UniversityController::class, 'index']);
-Route::get('v1/universities/{name}', [UniversityController::class, 'show']);
+Route::get('v1/universities/{id}', [UniversityController::class, 'show']);
 
 //Public Admin routes
 Route::post('v1/auth/admin/signup', [AdminController::class, 'signup']);
@@ -34,18 +35,23 @@ Route::get('v1/universities/dorms/{id}', [DormController::class, 'show']);
 Route::get('v1/specialties', [SpecialityController::class, 'index']);
 Route::get('v1/specialties/{id}', [SpecialityController::class, 'show']);
 
+//Public Exams routes
+Route::get('v1/exams', [ExamController::class, 'index']);
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
     //Protected University routes
     Route::post('v1/universities', [UniversityController::class, 'store']);
     Route::patch('v1/universities/{id}', [UniversityController::class, 'update']);
     Route::delete('v1/universities/{id}', [UniversityController::class, 'destroy']);
+    Route::post('v1/universities/{id}/specialties', [UniversityController::class, 'addSpeciality']);
+    Route::delete('v1/universities/{id}/specialties', [UniversityController::class, 'removeSpeciality']);
 
     //Protected Admin routes
     Route::post('v1/auth/admin/signout', [AdminController::class, 'signout']);
 
     //Protected Dorm routes
     Route::post('v1/universities/{id}/dorms', [DormController::class, 'store']);
-    Route::patch('v1/universities/{id}/dorms', [DormController::class, 'update']);
+    Route::patch('v1/universities/dorms/{id}', [DormController::class, 'update']);
     Route::delete('v1/universities/dorms/{id}', [DormController::class, 'destroy']);
 
     //Protected Speciality routes
