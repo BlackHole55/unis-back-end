@@ -11,7 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::dropIfExists('faculties');
+        Schema::table('exams', function (Blueprint $table) {
+            $table->
+        });
     }
 
     /**
@@ -19,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('exams', function (Blueprint $table) {
+            //
+        });
     }
 };

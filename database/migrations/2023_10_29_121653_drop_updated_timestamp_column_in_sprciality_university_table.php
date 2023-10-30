@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('specialty_university', function (Blueprint $table) {
-            $table->string('faculty_name');
+        Schema::table('speciality_university', function (Blueprint $table) {
+            $table->dropColumn('updated_timestamp');
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('specialty_university', function (Blueprint $table) {
+        Schema::table('sprciality_university', function (Blueprint $table) {
             //
         });
     }

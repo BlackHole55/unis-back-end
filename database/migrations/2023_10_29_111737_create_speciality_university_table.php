@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('specialty_university', function (Blueprint $table) {
+        Schema::create('speciality_university', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('university_id');
             $table->foreign('university_id')->references('id')->on('universities');
             $table->unsignedBigInteger('specialty_id');
             $table->foreign('specialty_id')->references('id')->on('specialties');
+            $table->integer('price_per_year_tenge');
         });
     }
 
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('specialty_university');
+        Schema::dropIfExists('speciality_university');
     }
 };
