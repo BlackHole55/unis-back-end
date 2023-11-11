@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description');
-            $table->foreignId('faculties_id');
+            $table->text('description')->nullable();
+            $table->string('link_to_website')->nullable();
             $table->string('added_timestamp');
             $table->string('updated_timestamp')->nullable();
             $table->string('last_changed_admin');  

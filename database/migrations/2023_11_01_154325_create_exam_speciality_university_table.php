@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('speciality_university', function (Blueprint $table) {
-            $table->dropColumn('updated_timestamp');
+        Schema::create('exam_speciality_university', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('speciality_university_id')->references('id')->on('speciality_university');
+            $table->foreignId('exam_id')->references('id')->on('exams');
         });
     }
 
@@ -21,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('sprciality_university', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('exam_speciality_university');
     }
 };

@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('dorms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('university_id');
+            $table->foreignId('university_id')->references('id')->on('universities');;
             $table->string('location');
-            $table->text('description');
-            $table->integer('price_tenge');
+            $table->text('description')->nullable();
+            $table->integer('price_tenge')->nullable();
+            $table->integer('price_usd')->nullable();
             $table->string('added_timestamp');
             $table->string('updated_timestamp')->nullable();
             $table->string('last_changed_admin'); 
