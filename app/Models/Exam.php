@@ -18,5 +18,10 @@ class Exam extends Model
     ];
 
     const UPDATED_AT = null; 
-    const CREATED_AT = null; 
+    const CREATED_AT = null;
+
+    public function specialtiesUniversities()
+    {
+        return $this->belongsToMany(SpecialityUniversity::class);
+    }
 }

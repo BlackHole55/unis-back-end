@@ -23,7 +23,7 @@ class AdminController extends Controller
         //Check password
         if(!$admin || !Hash::check($fields['password'], $admin->password))
         {
-            return response([
+            return response()->json([
                 'status' => 'invalid',
                 'message' => 'Wrong username or password'
             ], 401);
@@ -42,7 +42,7 @@ class AdminController extends Controller
             'token' => $token
         ];
 
-        return response($response, 201);
+        return response()->json($response, 201);
     }
 
     public function signup(Request $request)
@@ -69,7 +69,7 @@ class AdminController extends Controller
             'status' => 'succsess',
         ];
 
-        return response($response, 201);
+        return response()->json($response, 201);
     }
 
     public function signout(Request $request)
@@ -80,6 +80,6 @@ class AdminController extends Controller
             'status' => 'success',
         ];
 
-        return response($response, 200);
+        return response()->json($response, 200);
     }
 }

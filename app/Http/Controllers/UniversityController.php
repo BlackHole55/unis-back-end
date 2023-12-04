@@ -22,17 +22,10 @@ class UniversityController extends Controller
 
         $universities = University::with(['dorms'])->get();
         $universities = University::with(['specialties'])->get();
-        return response([
+
+        return response()->json([
             'universities' => $universities
         ], 200);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -62,7 +55,7 @@ class UniversityController extends Controller
             'last_changed_admin' => $adminName,
         ]);
 
-        return response([
+        return response()->json([
             'university' => $university,
             'status' => 'success',
         ], 201);
@@ -73,22 +66,14 @@ class UniversityController extends Controller
      */
     public function show(string $id)
     {
-        $university = University::where('id', $id)->get();
-        $dorms = University::find($id)->dorms;
+        $university = University::find($id);
+        if($university != null){
+            $university->loadMissing(['dorms', 'specialties']);
+        }
 
-        return response([
+        return response()->json([
             'university' => $university,
-            'dorms' => $dorms,
-            'specialties' => $university->load('specialties'),
         ], 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
@@ -111,7 +96,7 @@ class UniversityController extends Controller
             'last_changed_admin' =>$adminName,
         ]);
 
-        return response([
+        return response()->json([
             'university' => $university,
             'status' => 'success',
         ], 200);
@@ -123,13 +108,13 @@ class UniversityController extends Controller
     public function destroy(string $id)
     {
         University::destroy($id);
-        return response([
+        return response()->json([
             'status' => 'success'
         ], 200);
     }
 
     /**
-     * Add Speciality to University
+     * Sync without detaching Speciality to University
      */
     public function addSpeciality(Request $request, $id)
     {
@@ -147,7 +132,7 @@ class UniversityController extends Controller
             $request->speciality => ['price_per_year_tenge' => $price, 'added_timestamp' => $formattedDate, 'last_changed_admin' => $adminName]
         ]);
 
-        return response([
+        return response()->json([
             'status' => 'success',
         ], 200);
     }
@@ -161,8 +146,28 @@ class UniversityController extends Controller
 
         $university->specialties()->detach($request->speciality);
 
-        return response([
+        return response()->json([
             'status' => 'success',
+        ], 200);
+    }
+
+    /**
+     * Search Universities
+     */
+    public function search(Request $request)
+    {
+        $universities_query = University::query();
+
+        $search = $request->input('search');
+
+        if($search){
+            $universities_query = University::search($search);
+        }
+
+        $universities = $universities_query->get();
+        
+        return response()->json([
+            'universities' => $universities,
         ], 200);
     }
 }

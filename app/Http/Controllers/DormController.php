@@ -19,7 +19,7 @@ class DormController extends Controller
         }
         $dorms = Dorm::paginate($per_page);
 
-        return response([
+        return response()->json([
             'dorms' => $dorms,
         ], 200);
     }
@@ -49,7 +49,7 @@ class DormController extends Controller
             'last_changed_admin' => $adminName,
         ]);
 
-        return response([
+        return response()->json([
             'dorm' => $dorm,
             'status' => 'success',
         ], 201);
@@ -60,7 +60,10 @@ class DormController extends Controller
      */
     public function show(string $id)
     {
-        return Dorm::where('id', $id)->get();
+        $dorm = Dorm::find($id);
+        return response()->json([
+            'dorm' => $dorm
+        ], 200);
     }
 
     /**
@@ -83,7 +86,7 @@ class DormController extends Controller
             'last_changed_admin' =>$adminName,
         ]);
 
-        return response([
+        return response()->json([
             'dorm' => $dorm,
             'status' => 'success',
         ], 200);
@@ -95,7 +98,7 @@ class DormController extends Controller
     public function destroy(string $id)
     {
         Dorm::destroy($id);
-        return response([
+        return response()->json([
             'status' => 'success'
         ], 200);
     }

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Speciality;
+use App\Models\Exam;
 use Carbon\Carbon;
 
-class SpecialityController extends Controller
+class ExamController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +17,19 @@ class SpecialityController extends Controller
         if($request->has('per_page')){
             $per_page=$request->per_page;
         }
-        $specialties = Speciality::paginate($per_page);
+        $exams = Exam::paginate($per_page);
 
         return response()->json([
-            'specialties' => $specialties,
+            'exams' => $exams
         ], 200);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -29,7 +37,11 @@ class SpecialityController extends Controller
      */
     public function store(Request $request)
     {
-        $name = $request->input('name');;
+        $fields = $request->validate([
+            'name' => 'required',
+        ]);
+        $description = $request->input('description');
+        $link_to_website = $request->input('link_to_website');
 
         $adminName = $request->user()->name;
 
@@ -37,27 +49,37 @@ class SpecialityController extends Controller
         $date->timezone('Asia/Almaty');
         $formattedDate = $date->toIso8601String();
 
-        $speciality = Speciality::create([
-            'name' => $name,
+        $exam = Exam::create([
+            'name' => $fields['name'],
+            'description' => $description,
+            'link_to_website' => $link_to_website,
             'added_timestamp' => $formattedDate,
             'last_changed_admin' => $adminName,
         ]);
 
         return response()->json([
-            'speciality' => $speciality,
+            'exam' => $exam,
             'status' => 'success',
         ], 201);
     }
-    
+
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        $speciality = Speciality::find($id);
+        $exam = Exam::find($id);
         return response()->json([
-            'speciality' => $speciality,
+            'exam' => $exam
         ], 200);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
     }
 
     /**
@@ -71,17 +93,17 @@ class SpecialityController extends Controller
         $date->timezone('Asia/Almaty');
         $formattedDate = $date->toIso8601String();
 
-        $speciality = Speciality::find($id);
+        $exam = Exam::find($id);
 
-        $speciality->update($request->all());
+        $exam->update($request->all());
 
-        $speciality->update([
+        $exam->update([
             'updated_timestamp' => $formattedDate,
             'last_changed_admin' =>$adminName,
         ]);
 
         return response()->json([
-            'speciality' => $speciality,
+            'exam' => $exam,
             'status' => 'success',
         ], 200);
     }
@@ -91,7 +113,7 @@ class SpecialityController extends Controller
      */
     public function destroy(string $id)
     {
-        Speciality::destroy($id);
+        Exam::destroy($id);
         return response()->json([
             'status' => 'success'
         ], 200);

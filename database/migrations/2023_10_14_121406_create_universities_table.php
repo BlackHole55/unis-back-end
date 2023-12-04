@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('location');
             $table->text('description')->nullable();
-            $table->string('link_to_website');
+            $table->string('link_to_website')->nullable();
             $table->string('added_timestamp');
             $table->string('updated_timestamp')->nullable();
             $table->string('last_changed_admin');

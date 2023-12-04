@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DormController;
 use App\Http\Controllers\SpecialityController;
 use App\Http\Controllers\ExamController;
+use App\Http\Controllers\SpecialityUniversityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,45 +20,85 @@ use App\Http\Controllers\ExamController;
 |
 */
 
-//Public University routes
-Route::get('v1/universities', [UniversityController::class, 'index']);
-Route::get('v1/universities/{id}', [UniversityController::class, 'show']);
+//Public routes
+Route::prefix('v1')->group(function() {
+    //University routes
+    Route::prefix('universities')->group(function(){
 
-//Public Admin routes
-Route::post('v1/auth/admin/signup', [AdminController::class, 'signup']);
-Route::post('v1/auth/admin/signin', [AdminController::class, 'signin']);
+        Route::get('/', [UniversityController::class, 'index']);
+        Route::post('search', [UniversityController::class, 'search']);
+        Route::get('{id}', [UniversityController::class, 'show']);
 
-//Public Dorm routes
-Route::get('v1/universities/dorms', [DormController::class, 'index']);
-Route::get('v1/universities/dorms/{id}', [DormController::class, 'show']);
+        //Dorm routes
+        Route::get('dorms', [DormController::class, 'index']);
+        Route::get('dorms/{id}', [DormController::class, 'show']);
 
-//Public Speciality routes
-Route::get('v1/specialties', [SpecialityController::class, 'index']);
-Route::get('v1/specialties/{id}', [SpecialityController::class, 'show']);
+        //Speciality University routes
+        Route::get('speciality-university/{id}', [SpecialityUniversityController::class, 'show']);
+    });
 
-//Public Exams routes
-Route::get('v1/exams', [ExamController::class, 'index']);
+    //Admin routes
+    Route::prefix('auth/admins')->group(function(){
+        Route::post('signup', [AdminController::class, 'signup']);
+        Route::post('signin', [AdminController::class, 'signin']);
+    });
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    //Protected University routes
-    Route::post('v1/universities', [UniversityController::class, 'store']);
-    Route::patch('v1/universities/{id}', [UniversityController::class, 'update']);
-    Route::delete('v1/universities/{id}', [UniversityController::class, 'destroy']);
-    Route::post('v1/universities/{id}/specialties', [UniversityController::class, 'addSpeciality']);
-    Route::delete('v1/universities/{id}/specialties', [UniversityController::class, 'removeSpeciality']);
+    //Speciality routes
+    Route::prefix('specialties')->group(function(){
+        Route::get('/', [SpecialityController::class, 'index']);
+        Route::get('{id}', [SpecialityController::class, 'show']);
+    });
 
-    //Protected Admin routes
-    Route::post('v1/auth/admin/signout', [AdminController::class, 'signout']);
+    //Exams routes
+    Route::prefix('exams')->group(function(){
+        Route::get('/', [ExamController::class, 'index']);
+        Route::get('{id}', [ExamController::class, 'show']);
+    });
 
-    //Protected Dorm routes
-    Route::post('v1/universities/{id}/dorms', [DormController::class, 'store']);
-    Route::patch('v1/universities/dorms/{id}', [DormController::class, 'update']);
-    Route::delete('v1/universities/dorms/{id}', [DormController::class, 'destroy']);
 
-    //Protected Speciality routes
-    Route::post('v1/specialties', [SpecialityController::class, 'store']);
-    Route::patch('v1/specialties/{id}', [SpecialityController::class, 'update']);
-    Route::delete('v1/specialties/{id}', [SpecialityController::class, 'destroy']);
+    //Protected routes
+    Route::group(['middleware' => ['auth:sanctum']], function () {
+        //University routes
+        Route::prefix('universities')->group(function(){
+
+            Route::post('/', [UniversityController::class, 'store']);
+            Route::patch('{id}', [UniversityController::class, 'update']);
+            Route::delete('{id}', [UniversityController::class, 'destroy']);
+
+            Route::post('{id}/specialties', [UniversityController::class, 'addSpeciality']);
+            Route::delete('{id}/specialties', [UniversityController::class, 'removeSpeciality']);
+
+            //Dorm routes
+            Route::post('{id}/dorms', [DormController::class, 'store']);
+            Route::patch('dorms/{id}', [DormController::class, 'update']);
+            Route::delete('dorms/{id}', [DormController::class, 'destroy']);
+
+            
+            //SpecialitUniversity routes
+            Route::post('speciality-university/{id}/exams', [SpecialityUniversityController::class, 'addExam']);
+            Route::delete('speciality-university/{id}exams', [SpecialityUniversityController::class, 'removeExam']);
+        });
+
+        //Admin routes
+        Route::prefix('auth/admins')->group(function(){
+            Route::post('signout', [AdminController::class, 'signout']);
+        });
+
+
+        //Speciality routes
+        Route::prefix('specialties')->group(function(){
+            Route::post('/', [SpecialityController::class, 'store']);
+            Route::patch('{id}', [SpecialityController::class, 'update']);
+            Route::delete('{id}', [SpecialityController::class, 'destroy']);
+        });
+
+        //Exams routes
+        Route::prefix('exams')->group(function(){
+            Route::post('/', [ExamController::class, 'store']);
+            Route::patch('{id}', [ExamController::class, 'update']);
+            Route::delete('{id}', [ExamController::class, 'destroy']);
+        });
+    });
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

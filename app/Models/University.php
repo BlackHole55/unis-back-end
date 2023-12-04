@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Dorm;
+use Laravel\Scout\Searchable;
 
 class University extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $fillable = [
         'name',
@@ -24,6 +24,16 @@ class University extends Model
     const UPDATED_AT = null; 
     const CREATED_AT = null; 
 
+    public function toSearchableArray()
+    {
+        return [
+            'name' => $this->name,
+            'location' => $this->location,
+            'description' => $this->description,
+            'link_to_website' => $this->link_to_website,
+        ];
+    }
+
     /**
      * Get the dorms for the university.
      */
@@ -34,6 +44,6 @@ class University extends Model
     
     public function specialties()
     {
-        return $this->belongsToMany(Speciality::class, 'speciality_university', 'university_id', 'specialty_id')->as('faculty')->withPivot('price_per_year_tenge');
+        return $this->belongsToMany(Speciality::class, 'speciality_university', 'university_id', 'specialty_id')->withPivot('price_per_year_tenge');
     }
 }
