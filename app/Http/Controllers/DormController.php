@@ -37,7 +37,7 @@ class DormController extends Controller
         $adminName = $request->user()->name;
 
         $date = Carbon::now();
-        $date->timezone('Asia/Almaty');
+        $date->timezone('Asia/Aqtobe');
         $formattedDate = $date->toIso8601String();
 
         $dorm = Dorm::create([
@@ -74,7 +74,7 @@ class DormController extends Controller
         $adminName = $request->user()->name;
 
         $date = Carbon::now();
-        $date->timezone('Asia/Almaty');
+        $date->timezone('Asia/Aqtobe');
         $formattedDate = $date->toIso8601String();
 
         $dorm = Dorm::find($id);

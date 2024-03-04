@@ -34,7 +34,7 @@ class SpecialityController extends Controller
         $adminName = $request->user()->name;
 
         $date = Carbon::now();
-        $date->timezone('Asia/Almaty');
+        $date->timezone('Asia/Aqtobe');
         $formattedDate = $date->toIso8601String();
 
         $speciality = Speciality::create([
@@ -68,7 +68,7 @@ class SpecialityController extends Controller
         $adminName = $request->user()->name;
 
         $date = Carbon::now();
-        $date->timezone('Asia/Almaty');
+        $date->timezone('Asia/Aqtobe');
         $formattedDate = $date->toIso8601String();
 
         $speciality = Speciality::find($id);

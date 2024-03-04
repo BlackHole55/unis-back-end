@@ -32,7 +32,7 @@ class AdminController extends Controller
         $token = $admin->createToken('myAppToken')->plainTextToken;
 
         $date = Carbon::now();
-        $date->timezone('Asia/Almaty');
+        $date->timezone('Asia/Aqtobe');
         $formattedDate = $date->toIso8601String();
         $admin->last_login = $formattedDate;
         $admin->save();
@@ -53,7 +53,7 @@ class AdminController extends Controller
         ]);
 
         $date = Carbon::now();
-        $date->timezone('Asia/Almaty');
+        $date->timezone('Asia/Aqtobe');
         $formattedDate = $date->toIso8601String();
 
         $admin = Admin::create([

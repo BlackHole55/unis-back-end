@@ -20,8 +20,8 @@ class UniversityController extends Controller
         }
         $universities = University::paginate($per_page);
 
-        $universities = University::with(['dorms'])->get();
-        $universities = University::with(['specialties'])->get();
+        $universities = University::with(['specialties', 'dorms'])->get();
+        
 
         return response()->json([
             'universities' => $universities
@@ -43,7 +43,7 @@ class UniversityController extends Controller
         $adminName = $request->user()->name;
 
         $date = Carbon::now();
-        $date->timezone('Asia/Almaty');
+        $date->timezone('Asia/Aqtobe');
         $formattedDate = $date->toIso8601String();
 
         $university = University::create([
@@ -84,7 +84,7 @@ class UniversityController extends Controller
         $adminName = $request->user()->name;
 
         $date = Carbon::now();
-        $date->timezone('Asia/Almaty');
+        $date->timezone('Asia/Aqtobe');
         $formattedDate = $date->toIso8601String();
 
         $university = University::find($id);
@@ -121,7 +121,7 @@ class UniversityController extends Controller
         $university = University::find($id);
 
         $date = Carbon::now();
-        $date->timezone('Asia/Almaty');
+        $date->timezone('Asia/Aqtobe');
         $formattedDate = $date->toIso8601String();
 
         $adminName = $request->user()->name;
