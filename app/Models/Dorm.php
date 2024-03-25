@@ -14,7 +14,8 @@ class Dorm extends Model
     protected $fillable = [
         'university_id',
         'description',
-        'location',
+        'city',
+        'address',
         'price_tenge',
         'added_timestamp',
         'updated_timestamp',

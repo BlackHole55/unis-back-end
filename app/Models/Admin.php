@@ -14,7 +14,7 @@ class Admin extends Model
         'name',
         'password',
         'registered_timestamp',
-        'last_login',
+        'last_login_timestamp',
     ];
 
     protected $hidden = [

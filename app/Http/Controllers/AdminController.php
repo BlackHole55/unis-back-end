@@ -34,11 +34,11 @@ class AdminController extends Controller
         $date = Carbon::now();
         $date->timezone('Asia/Aqtobe');
         $formattedDate = $date->toIso8601String();
-        $admin->last_login = $formattedDate;
+        $admin->last_login_timestamp = $formattedDate;
         $admin->save();
 
         $response = [
-            'status' => 'succsess',
+            'user' => $admin,
             'token' => $token
         ];
 

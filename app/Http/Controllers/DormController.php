@@ -31,7 +31,8 @@ class DormController extends Controller
     {
         $university_id = $id;
         $description = $request->input('description');
-        $location = $request->input('location');
+        $city = $request->input('city');
+        $address = $request->input('address');
         $price_tenge = $request->input('price_tenge');
 
         $adminName = $request->user()->name;
@@ -42,7 +43,8 @@ class DormController extends Controller
 
         $dorm = Dorm::create([
             'university_id' => $university_id,
-            'location' => $location,
+            'city' => $city,
+            'address' => $address,
             'description' => $description,
             'price_tenge' => $price_tenge,
             'added_timestamp' => $formattedDate,

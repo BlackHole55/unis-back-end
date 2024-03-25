@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\University;
-use App\Models\Dorm;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+
+use App\Models\University;
+use App\Models\SpecialityUniversity;
+use App\Models\Dorm;
 
 class UniversityController extends Controller
 {
@@ -37,7 +40,8 @@ class UniversityController extends Controller
             'name' => 'required',
         ]);
         $description = $request->input('description');
-        $location = $request->input('location');
+        $city = $request->input('city');
+        $address = $request->input('address');
         $link_to_website = $request->input('link_to_website');
 
         $adminName = $request->user()->name;
@@ -48,7 +52,8 @@ class UniversityController extends Controller
 
         $university = University::create([
             'name' => $fields['name'],
-            'location' => $location,
+            'city' => $city,
+            'address' => $address,
             'description' => $description,
             'link_to_website' => $link_to_website,
             'added_timestamp' => $formattedDate,
@@ -67,12 +72,20 @@ class UniversityController extends Controller
     public function show(string $id)
     {
         $university = University::find($id);
+
+        $specialityUniversity = SpecialityUniversity::where('university_id', $id)->get();
+
         if($university != null){
             $university->loadMissing(['dorms', 'specialties']);
         }
 
+        if($specialityUniversity != null){
+            $specialityUniversity->loadMissing(['exams']);
+        }
+
         return response()->json([
             'university' => $university,
+            'specialityUniversity' => $specialityUniversity
         ], 200);
     }
 

@@ -29,7 +29,8 @@ class SpecialityController extends Controller
      */
     public function store(Request $request)
     {
-        $name = $request->input('name');;
+        $name = $request->input('name');
+        $description = $request->input('description');
 
         $adminName = $request->user()->name;
 
@@ -39,6 +40,7 @@ class SpecialityController extends Controller
 
         $speciality = Speciality::create([
             'name' => $name,
+            'description' => $description,
             'added_timestamp' => $formattedDate,
             'last_changed_admin' => $adminName,
         ]);

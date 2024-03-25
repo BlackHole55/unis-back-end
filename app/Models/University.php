@@ -14,7 +14,8 @@ class University extends Model
     protected $fillable = [
         'name',
         'description',
-        'location',
+        'city',
+        'address',
         'link_to_website',
         'added_timestamp',
         'updated_timestamp',
@@ -44,6 +45,7 @@ class University extends Model
     
     public function specialties()
     {
-        return $this->belongsToMany(Speciality::class, 'speciality_university', 'university_id', 'specialty_id')->withPivot('price_per_year_tenge');
+        return $this->belongsToMany(Speciality::class, 'speciality_university', 'university_id', 'specialty_id');
     }
 }
+

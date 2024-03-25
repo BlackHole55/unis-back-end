@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('dorms', function (Blueprint $table) {
             $table->id();
             $table->foreignId('university_id')->references('id')->on('universities');;
-            $table->string('location');
+            $table->string('city');
+            $table->string('address');
             $table->text('description')->nullable();
             $table->integer('price_tenge')->nullable();
             $table->integer('price_usd')->nullable();

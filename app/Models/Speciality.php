@@ -12,6 +12,7 @@ class Speciality extends Model
 
     protected $fillable = [
         'name',
+        'description',
         'added_timestamp',
         'updated_timestamp',
         'last_changed_admin',

@@ -76,7 +76,7 @@ Route::prefix('v1')->group(function() {
             
             //SpecialitUniversity routes
             Route::post('speciality-university/{id}/exams', [SpecialityUniversityController::class, 'addExam']);
-            Route::delete('speciality-university/{id}exams', [SpecialityUniversityController::class, 'removeExam']);
+            Route::delete('speciality-university/{id}/exams', [SpecialityUniversityController::class, 'removeExam']);
         });
 
         //Admin routes
