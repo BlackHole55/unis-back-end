@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\Admin;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -66,7 +67,7 @@ class AdminController extends Controller
 
         $response = [
             'token' => $token,
-            'status' => 'succsess',
+            'status' => 'success',
         ];
 
         return response()->json($response, 201);
@@ -74,12 +75,30 @@ class AdminController extends Controller
 
     public function signout(Request $request)
     {
-        auth()->user()->tokens()->delete();
+        if(Auth::check()){
+            auth()->user()->tokens()->delete();    
+        };
 
         $response = [
             'status' => 'success',
         ];
 
         return response()->json($response, 200);
+    }
+
+    public function checkLogin(Request $request)
+    {   
+        if(Auth::check()){
+            return response()->json([
+                'status' => 'logged in'
+            ], 200);
+        }
+
+        $user = Auth::user();
+
+        return response()->json([
+            'user' => $user,
+            'message' => 'Unauthorized',
+        ], 401);
     }
 }

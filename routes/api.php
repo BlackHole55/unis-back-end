@@ -39,7 +39,7 @@ Route::prefix('v1')->group(function() {
 
     //Admin routes
     Route::prefix('auth/admins')->group(function(){
-        Route::post('signup', [AdminController::class, 'signup']);
+        // Route::post('signup', [AdminController::class, 'signup']);
         Route::post('signin', [AdminController::class, 'signin']);
     });
 
@@ -82,6 +82,7 @@ Route::prefix('v1')->group(function() {
         //Admin routes
         Route::prefix('auth/admins')->group(function(){
             Route::post('signout', [AdminController::class, 'signout']);
+            Route::get('check-login', [AdminController::class, 'checkLogin']);
         });
 
 
