@@ -29,7 +29,8 @@ class University extends Model
     {
         return [
             'name' => $this->name,
-            'location' => $this->location,
+            'city' => $this->city,
+            'address' => $this->address,
             'description' => $this->description,
             'link_to_website' => $this->link_to_website,
         ];
