@@ -118,4 +118,29 @@ class ExamController extends Controller
             'status' => 'success'
         ], 200);
     }
+
+    /**
+     * Search Universities
+     */
+    public function search(Request $request)
+    {
+        $exams_query = Exam::query();
+
+        $search = $request->input('search');
+
+        if($search){
+            $exams_query = Exam::search($search);
+        }
+
+        $per_page = 10;
+        if($request->has('per_page')){
+            $per_page=$request->per_page;
+        }
+        
+        $exams = $exams_query->paginate($per_page);
+        
+        return response()->json([
+            'exams' => $exams,
+        ], 200);
+    }
 }

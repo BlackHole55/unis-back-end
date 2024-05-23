@@ -98,4 +98,29 @@ class SpecialityController extends Controller
             'status' => 'success'
         ], 200);
     }
+
+    /**
+     * Search Universities
+     */
+    public function search(Request $request)
+    {
+        $specialties_query = Speciality::query();
+
+        $search = $request->input('search');
+
+        if($search){
+            $specialties_query = Speciality::search($search);
+        }
+
+        $per_page = 10;
+        if($request->has('per_page')){
+            $per_page=$request->per_page;
+        }
+        
+        $specialties = $specialties_query->paginate($per_page);
+        
+        return response()->json([
+            'specialties' => $specialties,
+        ], 200);
+    }
 }

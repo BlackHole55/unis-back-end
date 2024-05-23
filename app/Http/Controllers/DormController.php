@@ -104,4 +104,29 @@ class DormController extends Controller
             'status' => 'success'
         ], 200);
     }
+
+    /**
+     * Search Universities
+     */
+    public function search(Request $request)
+    {
+        $dorms_query = Dorm::query();
+
+        $search = $request->input('search');
+
+        if($search){
+            $dorms_query = Dorm::with('university')->search($search);
+        }
+
+        $per_page = 10;
+        if($request->has('per_page')){
+            $per_page=$request->per_page;
+        }
+
+        $dorms = $dorms_query->paginate($per_page);
+        
+        return response()->json([
+            'dorms' => $dorms,
+        ], 200);
+    }
 }

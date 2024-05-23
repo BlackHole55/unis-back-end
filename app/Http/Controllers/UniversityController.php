@@ -21,10 +21,8 @@ class UniversityController extends Controller
         if($request->has('per_page')){
             $per_page=$request->per_page;
         }
-        $universities = University::paginate($per_page);
 
-        $universities = University::with(['specialties', 'dorms'])->get();
-        
+        $universities = University::with(['specialties', 'dorms'])->paginate($per_page);
 
         return response()->json([
             'universities' => $universities
@@ -109,9 +107,19 @@ class UniversityController extends Controller
             'last_changed_admin' =>$adminName,
         ]);
 
+        $specialityUniversity = SpecialityUniversity::where('university_id', $id)->get();
+
+        if($university != null){
+            $university->loadMissing(['dorms', 'specialties']);
+        }
+
+        if($specialityUniversity != null){
+            $specialityUniversity->loadMissing(['exams']);
+        }
+
         return response()->json([
             'university' => $university,
-            'status' => 'success',
+            'specialityUniversity' => $specialityUniversity
         ], 200);
     }
 
@@ -174,10 +182,17 @@ class UniversityController extends Controller
         $search = $request->input('search');
 
         if($search){
-            $universities_query = University::search($search);
+            $universities_query = University::with(['dorms', 'specialties'])->search($search);
         }
 
-        $universities = $universities_query->get();
+        $per_page = 10;
+        if($request->has('per_page')){
+            $per_page=$request->per_page;
+        }
+
+        $universities = $universities_query->paginate($per_page);
+
+        // $universities->load(['dorms', 'specialties']);
         
         return response()->json([
             'universities' => $universities,
