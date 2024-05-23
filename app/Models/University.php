@@ -36,9 +36,18 @@ class University extends Model
         ];
     }
 
-    /**
-     * Get the dorms for the university.
-     */
+    public function scopeSearch($query, $search='')
+    {
+        return $query->where('name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('city', 'LIKE', '%' . $search . '%')
+                    ->orWhere('address', 'LIKE', '%' . $search . '%')
+                    ->orWhere('description', 'LIKE', '%' . $search . '%')
+                    ->orWhere('link_to_website', 'LIKE', '%' . $search . '%')
+                    ->orWhereHas('specialties', function ($query) use($search){
+                        $query->where('name', 'LIKE', '%' . $search . '%');
+                    });
+    }
+
     public function dorms(): HasMany
     {
         return $this->hasMany(Dorm::class);
