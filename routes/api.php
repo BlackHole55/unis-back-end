@@ -29,30 +29,35 @@ Route::prefix('v1')->group(function() {
         Route::post('search', [UniversityController::class, 'search']);
         Route::get('{id}', [UniversityController::class, 'show']);
 
-        //Dorm routes
-        Route::get('dorms', [DormController::class, 'index']);
-        Route::get('dorms/{id}', [DormController::class, 'show']);
-
         //Speciality University routes
         Route::get('speciality-university/{id}', [SpecialityUniversityController::class, 'show']);
     });
 
     //Admin routes
     Route::prefix('auth/admins')->group(function(){
-        // Route::post('signup', [AdminController::class, 'signup']);
+        Route::post('signup', [AdminController::class, 'signup']);
         Route::post('signin', [AdminController::class, 'signin']);
+    });
+
+    //Dorm routes
+    Route::prefix('dorms')->group(function(){
+        Route::get('/', [DormController::class, 'index']);
+        Route::get('{id}', [DormController::class, 'show']);
+        Route::post('search', [DormController::class, 'search']);
     });
 
     //Speciality routes
     Route::prefix('specialties')->group(function(){
         Route::get('/', [SpecialityController::class, 'index']);
         Route::get('{id}', [SpecialityController::class, 'show']);
+        Route::post('search', [SpecialityController::class, 'search']);
     });
 
     //Exams routes
     Route::prefix('exams')->group(function(){
         Route::get('/', [ExamController::class, 'index']);
         Route::get('{id}', [ExamController::class, 'show']);
+        Route::post('search', [ExamController::class, 'search']);
     });
 
 
