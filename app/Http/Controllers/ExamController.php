@@ -59,7 +59,7 @@ class ExamController extends Controller
 
         return response()->json([
             'exam' => $exam,
-            'status' => 'success',
+            'success' => 'Successfully created',
         ], 201);
     }
 
@@ -72,14 +72,6 @@ class ExamController extends Controller
         return response()->json([
             'exam' => $exam
         ], 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
@@ -104,7 +96,7 @@ class ExamController extends Controller
 
         return response()->json([
             'exam' => $exam,
-            'status' => 'success',
+            'success' => 'Successfully updated',
         ], 200);
     }
 

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('exam_speciality_university', function (Blueprint $table) {
             $table->id('id');
-            $table->foreignId('speciality_university_id')->references('id')->on('speciality_university');
-            $table->foreignId('exam_id')->references('id')->on('exams');
+            $table->foreignId('speciality_university_id')->references('id')->on('speciality_university')->onDelete('cascade');
+            $table->foreignId('exam_id')->references('id')->on('exams')->onDelete('cascade');
         });
     }
 

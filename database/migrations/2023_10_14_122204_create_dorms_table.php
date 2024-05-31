@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('dorms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('university_id')->references('id')->on('universities');;
+            $table->foreignId('university_id')->references('id')->on('universities')->onDelete('cascade');
             $table->string('city');
             $table->string('address');
             $table->text('description')->nullable();

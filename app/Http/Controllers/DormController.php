@@ -53,7 +53,7 @@ class DormController extends Controller
 
         return response()->json([
             'dorm' => $dorm,
-            'status' => 'success',
+            'success' => 'Successfully created',
         ], 201);
     }
     
@@ -90,7 +90,7 @@ class DormController extends Controller
 
         return response()->json([
             'dorm' => $dorm,
-            'status' => 'success',
+            'success' => 'Successfully updated',
         ], 200);
     }
 

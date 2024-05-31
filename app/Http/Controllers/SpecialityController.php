@@ -47,7 +47,7 @@ class SpecialityController extends Controller
 
         return response()->json([
             'speciality' => $speciality,
-            'status' => 'success',
+            'success' => 'Successfully created',
         ], 201);
     }
     
@@ -84,7 +84,7 @@ class SpecialityController extends Controller
 
         return response()->json([
             'speciality' => $speciality,
-            'status' => 'success',
+            'success' => 'Successfully updated',
         ], 200);
     }
 

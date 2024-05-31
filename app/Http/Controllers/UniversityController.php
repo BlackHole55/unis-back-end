@@ -60,7 +60,7 @@ class UniversityController extends Controller
 
         return response()->json([
             'university' => $university,
-            'status' => 'success',
+            'success' => 'Successfully created',
         ], 201);
     }
 
@@ -119,7 +119,8 @@ class UniversityController extends Controller
 
         return response()->json([
             'university' => $university,
-            'specialityUniversity' => $specialityUniversity
+            'specialityUniversity' => $specialityUniversity,
+            'success' => 'Successfully updated'
         ], 200);
     }
 
@@ -191,8 +192,6 @@ class UniversityController extends Controller
         }
 
         $universities = $universities_query->paginate($per_page);
-
-        // $universities->load(['dorms', 'specialties']);
         
         return response()->json([
             'universities' => $universities,

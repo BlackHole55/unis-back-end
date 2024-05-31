@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('speciality_university', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('university_id')->references('id')->on('universities');
-            $table->foreignId('specialty_id')->references('id')->on('specialties');
+            $table->foreignId('university_id')->references('id')->on('universities')->onDelete('cascade');
+            $table->foreignId('specialty_id')->references('id')->on('specialties')->onDelete('cascade');
             $table->integer('price_per_year_tenge')->nullable();
             $table->integer('price_per_year_usd')->nullable();
             $table->string('added_timestamp');
